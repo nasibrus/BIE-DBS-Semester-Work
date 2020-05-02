@@ -6,15 +6,15 @@
       <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title><xsl:value-of select="//code"/> - <xsl:value-of select="//aname"/> (<xsl:value-of select="//uname"/>) </title> 
-<!-- pro vdalene nasazeni -->
+<!-- for well-established use -->
 <!--         <link rel="stylesheet" type="text/css" href="https://users.fit.cvut.cz/~valenta/BI-DBS/sprojekt/sprojekt_html.css"/> -->
-<!-- pro lokalni testovani -->
+<!-- for local testing -->
         <link rel="stylesheet" type="text/css" href="./sproject_html.css"/>
       </head>
 
       <body>
 
-<!-- Java script pro vypnuti/zapnuti zobrazeni komentaru -->
+<!-- Java script to disable / enable comment display -->
 <script type="text/javascript" >
 var display=0;
 function noComment(){
@@ -35,14 +35,14 @@ return false;
 }
 </script>
 
-<input type="button" value=" Vypnout / zapnout zobrazeni komentaru" onClick="return noComment();"/>
+<input type="button" value=" Disable / enable comment display "onClick =" return no Comment();"/>
 
-<!-- Informace o kurzu -->
+<!-- Course information -->
         <h3 class="course">
           <xsl:value-of select="//code"/> -            <xsl:value-of select="//cname"/>,            <xsl:value-of select="//semester"/>
         </h3>
 
-<!-- Informace o autorovi -->
+<!-- Information about the author -->
         <h3 class="author">
           <xsl:value-of select="//aname"/> ( <xsl:value-of select="//uname"/> )          <xsl:value-of select="//seminar"/>
         </h3>
@@ -55,29 +55,29 @@ return false;
 	   </xsl:element>
         </h4>
 
-<!-- Deklarace -->
+<!-- Declaration -->
         <p class="declaration">
           <xsl:value-of select="//declaration"/>
         </p>
 
-<!-- Nazev semestralky -->
+<!-- Name of semester -->
         <h1>
           <xsl:value-of select="//content/title"/>
         </h1>
 
-<!-- Popis -->
+<!-- Signature -->
         <h2>
           <xsl:value-of select="//description/title"/>
         </h2>
         <xsl:for-each select="//description/*">
- 		 <xsl:if test="local-name()='para'"> 
-			<p> <xsl:apply-templates mode="moje_para"/> </p>
+ 		 <xsl:if test="local-name()='partner'"> 
+			<p> <xsl:apply-templates mode="my_partner"/> </p>
 		 </xsl:if>
 		<xsl:if test="local-name()='comment'">
-			<p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/> </p>
+			<p class="comment" name="comment"> <xsl:apply-templates mode="my_partner"/> </p>
 		</xsl:if> 
         </xsl:for-each>
-<!-- Datovy model -->
+<!-- Data model -->
         <h2>
           <xsl:value-of select="//data_model/title"/>
         </h2>
@@ -87,24 +87,24 @@ return false;
 			<xsl:value-of select="//dm_picture//imagedata/@fileref"/>
                </xsl:attribute>
 		<xsl:attribute name ="alt">
-			Zde má být obrázek vašeho konceptuálního modelu.
+			Here should be a picture of your conceptual model.
                </xsl:attribute>
 	   </xsl:element>
 
 	<xsl:for-each select="//data_model/comment">
-		<p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/> </p>	
+		<p class="comment" name="comment"> <xsl:apply-templates mode="my_partner"/> </p>	
 	</xsl:for-each>
 	
          <xsl:for-each select="//dm_discussion/*">
- 		 <xsl:if test="local-name()='para'"> 
-			<p> <xsl:apply-templates mode="moje_para"/> </p>
+ 		 <xsl:if test="local-name()='partner'"> 
+			<p> <xsl:apply-templates mode="my_partner"/> </p>
 		 </xsl:if>
 		<xsl:if test="local-name()='comment'">
-			<p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/> </p>
+			<p class="comment" name="comment"> <xsl:apply-templates mode="my_partner"/> </p>
 		</xsl:if> 
         </xsl:for-each>
 
-<!-- Relacni model, je to nepovinny element, proto kontorola, da je pritomen -->
+<!-- Relational model, it is an optional element, so check if it is present -->
         <xsl:if test="//relational_model != ''">
         <h2>
           <xsl:value-of select="//relational_model/title"/>
@@ -115,66 +115,66 @@ return false;
 			<xsl:value-of select="//rm_picture//imagedata/@fileref"/>
                </xsl:attribute>
 		<xsl:attribute name ="alt">
-			Zde má být obrázek vašeho relačního modelu.
+			Here's a picture of your relational model.
                </xsl:attribute>
 	   </xsl:element>
 
 	<xsl:for-each select="//relational_model/comment">
-		<p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/> </p>	
+		<p class="comment" name="comment"> <xsl:apply-templates mode="my_partner"/> </p>	
 	</xsl:for-each>
 	
          <xsl:for-each select="//rm_discussion/*">
- 		 <xsl:if test="local-name()='para'"> 
-			<p> <xsl:apply-templates mode="moje_para"/> </p>
+ 		 <xsl:if test="local-name()='partner'"> 
+			<p> <xsl:apply-templates mode="my_partner"/> </p>
 		 </xsl:if>
 		<xsl:if test="local-name()='comment'">
-			<p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/> </p>
+			<p class="comment" name="comment"> <xsl:apply-templates mode="my_partner"/> </p>
 		</xsl:if> 
         </xsl:for-each>
         </xsl:if>
 
 
-<!-- SQL prikazy -->
+<!-- SQL queries -->
         <h2>
           <xsl:value-of select="//queries/title"/>
         </h2>
          <ol>
-        	<xsl:for-each select="//queries/dotazy/dotaz">
+        	<xsl:for-each select="//queries/queries/query">
          	<li>
-                <p> Kód dotazu: <b><a name="{@dotaz_id}"><xsl:value-of select="@dotaz_id"/></a></b> <a href="#tabulka_pokryti"> [Tabulka pokryti kategorií SQL příkazů]</a></p>
+                <p> Kód dotazu: <b><a name="{@dotaz_id}"><xsl:value-of select="@query_id"/></a></b> <a href="#tabulka_pokryti"> [Tabulka pokryti kategorií SQL příkazů]</a></p>
 		<xsl:for-each select="./*">
-			<xsl:if test="local-name()='popis_dotazu'">
+			<xsl:if test="local-name()='query_description'">
 				<xsl:for-each select="./para">
-		 			<p> <xsl:apply-templates mode="moje_para"/> </p>
+		 			<p> <xsl:apply-templates mode="my_partner"/> </p>
 				</xsl:for-each>
 			</xsl:if>
 			<xsl:if test="local-name()='comment'">
 				<xsl:for-each select=".">
-		 			<p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/> </p>
+		 			<p class="comment" name="comment"> <xsl:apply-templates mode="my_partner"/> </p>
 				</xsl:for-each>
 			</xsl:if>
-			<xsl:if test="local-name()='relacni_algebra'">
+			<xsl:if test="local-name()='relational_algebra'">
 				<xsl:for-each select=".">
-		 			<p class="ra"> <xsl:apply-templates mode="moje_para"/> </p>
+		 			<p class="ra"> <xsl:apply-templates mode="my_partner"/> </p>
 				</xsl:for-each>
 			</xsl:if>
 			<xsl:if test="local-name()='sql'">
 				<xsl:for-each select=".">
-		 			<p class="sql"> <xsl:apply-templates mode="moje_para"/> </p>
+		 			<p class="sql"> <xsl:apply-templates mode="my_partner"/> </p>
 				</xsl:for-each>
 			</xsl:if>
 		</xsl:for-each>
         	</li>
 		</xsl:for-each>
         </ol>
-	<!-- Tabulka pokryti SQL prikazu -->
-	<h2> <a name="tabulka_pokryti"> Tabulka pokrytí kategorií SQL příkazů </a></h2>
+	<!-- Table covered by SQL view -->
+	<h2> <a name="table_covered"> Table of coverage categories of SQL statements </a></h2>
    	<table>
 	<tbody>
 	<tr>
-		<th> Kategorie </th>
-		<th> Kódy porývajících dotazů</th>
-		<th> Charekteristika kategorie příkazu</th>
+		<th> Category </th>
+		<th> Catching query codes</th>
+		<th> Command category characteristics </th>
 	</tr>
 		<xsl:for-each select="//queries/pokryti_dotazu/radek">
 			<tr>
@@ -194,42 +194,42 @@ return false;
 		<p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/> </p>	
 	</xsl:for-each>
 
-<!-- Skripty -->
+<!-- Scripts -->
         <h2>
           <xsl:value-of select="//scripts/title"/>
         </h2>
         <xsl:for-each select="//scripts/*">
- 		 <xsl:if test="local-name()='para'"> 
-			<p> <xsl:apply-templates mode="moje_para"/> </p>
+ 		 <xsl:if test="local-name()='partner'"> 
+			<p> <xsl:apply-templates mode="my_partner"/> </p>
 		 </xsl:if>
 		<xsl:if test="local-name()='comment'">
-			<p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/> </p>
+			<p class="comment" name="comment"> <xsl:apply-templates mode="my_partner"/> </p>
 		</xsl:if> 
         </xsl:for-each>
 
-<!-- Zaver -->
+<!-- conclusion -->
         <h2>
           <xsl:value-of select="//conclussions/title"/>
         </h2>
         <xsl:for-each select="//conclussions/*">
- 		 <xsl:if test="local-name()='para'"> 
-			<p> <xsl:apply-templates mode="moje_para"/> </p>
+ 		 <xsl:if test="local-name()='partner'"> 
+			<p> <xsl:apply-templates mode="my_partner"/> </p>
 		 </xsl:if>
 		<xsl:if test="local-name()='comment'">
-			<p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/> </p>
+			<p class="comment" name="comment"> <xsl:apply-templates mode="my_partner"/> </p>
 		</xsl:if> 
         </xsl:for-each>
 
-<!-- Odkazy -->
+<!-- references -->
         <h2>
           <xsl:value-of select="//references/title"/>
         </h2>
         <xsl:for-each select="//references/*">
- 		 <xsl:if test="local-name()='para'"> 
-			<p> <xsl:apply-templates mode="moje_para"/> </p>
+ 		 <xsl:if test="local-name()='partner'"> 
+			<p> <xsl:apply-templates mode="my_partner"/> </p>
 		 </xsl:if>
 		<xsl:if test="local-name()='comment'">
-			<p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/> </p>
+			<p class="comment" name="comment"> <xsl:apply-templates mode="my_partner"/> </p>
 		</xsl:if> 
         </xsl:for-each>
 
@@ -237,26 +237,26 @@ return false;
     </html>
 </xsl:template>
 
-<!-- Nasledujici 2 templates resi mixec content v elementu para  a comment-->
-<xsl:template match="*" mode="moje_para">
+<!-- Next 2 templates resi mixec content v elementu para a comment-->
+<xsl:template match="*" mode="my_partner">
   <xsl:copy>
    <xsl:copy-of select="@*"/>
-   <xsl:apply-templates mode="moje_para"/>
+   <xsl:apply-templates mode="my_partner"/>
   </xsl:copy>
 </xsl:template>
 
-<xsl:template match="link" mode="moje_para">
+<xsl:template match="link" mode="my_partner">
   <a href="{@url}">
-   <xsl:apply-templates mode="moje_para"/>
+   <xsl:apply-templates mode="my_partner"/>
   </a>
 </xsl:template>
 
-<xsl:template match="para" mode="para">
-  <p> <xsl:apply-templates mode="moje_para"/></p>
+<xsl:template match="partner" mode="partner">
+  <p> <xsl:apply-templates mode="my_partner"/></p>
 </xsl:template>
 
 <xsl:template match="comment" mode="comment">
-  <p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/></p>
+  <p class="comment" name="comment"> <xsl:apply-templates mode="my_partner"/></p>
 </xsl:template>
 
 </xsl:stylesheet>
