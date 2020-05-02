@@ -191,7 +191,7 @@ return false;
 	</table>
 
 	<xsl:for-each select="//queries/comment">
-		<p class="comment" name="comment"> <xsl:apply-templates mode="moje_para"/> </p>	
+		<p class="comment" name="comment"> <xsl:apply-templates mode="my_partner"/> </p>	
 	</xsl:for-each>
 
 <!-- Scripts -->
